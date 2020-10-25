@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        
+        <title>Home Page</title>
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    </head>
+    <body>
+        
+        <div class="ui top fixed menu">
+      <a class="item">
+        <h1 class="ui green header">AUCTION PLATFORM</h1></a>
+      <div class="right menu">
+        <a class="ui blue item" href="{% url 'log_out' %}">Logout </a>
+      </div>
+    </div>
+
+        
+        <h3 class="ui center aligned blu header" style='margin-top:10%;'>Active auctionsong</h3>    
+        <div class='main-container' style='display:flex; flex-direction:row;margin-top: 5%;'>
+            
+            <div class="ui three cards" style='width:75%;'>
+                {% for block in auctions %}
+                    <div class='card'>
+                        <div class='content'>
+                            <form method='post'>
+                                {% csrf_token %}
+                                <div class="eight wide column">
+                                    <label>Identifier</label><br>
+                                    <div class="ui disabled input">
+                                        <input type='text', name='identif', id='identif', value={{block.id}}>
+                                    </div>
+                                    <h3>Object: {{block.nobject}} | Price: {{block.price}}€</h3>
+                                    <a class="item">
+                                    <div class="ui red horizontal label">Published:</div>{{block.publicData}} </a><br><br>
+                                    <div class="ui blue horizontal label">Expiry:</div>{{block.endData}} </a>
+                                    <br>
+                                    <br>
+                                    <div class="ui input">
+                                        <input type="text" placeholder="Bet", name='bet', id='bet'>
+                                    </div>
+                                    <button class="positive ui button">Bet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            
+            
+                <div class="ui inverted segment" style="float:right; width: 20%;">
+                
+                    <div class="ui inverted relaxed divided list">
+                        <h4 style="color:green;"><strong>Workflow</strong></h4>
+                        {% for wr in workflow %}
+                        <div class="item">
+                        <div class="header"><I>{{wr}}</I></div></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+            
+        
+            
+        
+    </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+</html>

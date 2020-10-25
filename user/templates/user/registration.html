@@ -1,0 +1,55 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <title> Registration </title>
+</head>
+<body style='background-color: black;'>
+<div class='ui middle aligned center aligned grid'>
+<div class='column' style='width:400px;'>
+<div class='content' style='font-family: arial; color:white; margin-top:50%;'><h2>REGISTRATION</h2></div>
+<form class="ui large form" method='post'>
+{% csrf_token %}
+<div class='ui stacked segment'>
+
+  <div class="field">
+  <div class='ui left icon input'>
+    <input type="text" name="username" placeholder="username">
+    <i class='user icon'></i>
+  </div>
+  </div>
+
+
+  <div class="field">
+  <div class='ui left icon input'>
+    <input type="email" name="email" placeholder="email">
+    <i class='at icon'></i>
+  </div>
+  </div>
+
+
+  <div class="field">
+  <div class='ui left icon input'>
+    <input type="password" name="password" placeholder="password">
+    <i class='lock icon'></i>
+  </div>
+  </div>
+
+  <div class="field">
+        <div class="ui checkbox">
+          <input type="checkbox" tabindex="0" >
+          <label>Accetto i Termini e le Condizioni</label>
+        </div>
+      </div>
+
+  <button class="ui inverted green button" type='submit'>Signin</button>
+  </div>
+</form>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+
+
+</body>
+</html>
