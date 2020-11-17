@@ -1,55 +1,76 @@
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
-    <title> Registration </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
-<body style='background-color: black;'>
-<div class='ui middle aligned center aligned grid'>
-<div class='column' style='width:400px;'>
-<div class='content' style='font-family: arial; color:white; margin-top:50%;'><h2>REGISTRATION</h2></div>
-<form class="ui large form" method='post'>
-{% csrf_token %}
-<div class='ui stacked segment'>
-
-  <div class="field">
-  <div class='ui left icon input'>
-    <input type="text" name="username" placeholder="username">
-    <i class='user icon'></i>
-  </div>
-  </div>
-
-
-  <div class="field">
-  <div class='ui left icon input'>
-    <input type="email" name="email" placeholder="email">
-    <i class='at icon'></i>
-  </div>
-  </div>
-
-
-  <div class="field">
-  <div class='ui left icon input'>
-    <input type="password" name="password" placeholder="password">
-    <i class='lock icon'></i>
-  </div>
-  </div>
-
-  <div class="field">
-        <div class="ui checkbox">
-          <input type="checkbox" tabindex="0" >
-          <label>Accetto i Termini e le Condizioni</label>
+<body>
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 login-section-wrapper">
+          <div class="login-wrapper my-auto">
+            <h1 class="login-title">Registration</h1>
+            <form method='post'>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+              </div>
+              <div class="form-group mb-4">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="mario@rossi.com">
+              </div>
+              <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="enter your passsword">
+              </div>
+              <div class='form-group mb-4'>
+                <p></p>
+              </div>
+              <input name="login" id="login" class="btn btn-block login-btn" type="submit" value="Register">
+            </form>
+            <p class="login-wrapper-footer-text">Do you already have an account? <a href="{% url 'login' %}" class="text-reset">Login here</a></p>
+          </div>
         </div>
+        
       </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script>
+    var createAllErrors = function() {
+        var form = $( this ),
+            errorList = $( "ul.errorMessages", form );
 
-  <button class="ui inverted green button" type='submit'>Signin</button>
-  </div>
-</form>
-</div>
-</div>
+        var showAllErrorMessages = function() {
+            errorList.empty();
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+            // Find all invalid fields within the form.
+            var invalidFields = form.find( ":invalid" ).each( function( index, node ) {
 
+                // Find the field's corresponding label
+                var label = $( "label[for=" + 'email' + "] "),
+                    // Opera incorrectly does not fill the validationMessage property.
+                    message = node.validationMessage || 'Invalid value.';
 
+                errorList
+                    .show()
+                    .append( "<li><span>" + label.html() + "</span> " + message + "</li>" );
+            });
+        };
+    };
+    
+    $( "form" ).each( createAllErrors );
+</script>
 </body>
 </html>

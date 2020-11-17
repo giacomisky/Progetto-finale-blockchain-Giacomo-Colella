@@ -14,3 +14,11 @@ class Auct(models.Model):
 
     def getBuyer(self):
         return self.buyer
+
+class Feed(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

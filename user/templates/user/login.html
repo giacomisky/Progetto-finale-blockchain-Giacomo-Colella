@@ -1,40 +1,47 @@
-<html>
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
-    <title> Login </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
-<body style='background-color: black;'>
-<div class='ui middle aligned center aligned grid'>
-<div class='column' style='width:400px;'>
-<div class='content' style='font-family: arial; color:white; margin-top:50%;'><h2>LOGIN</h2></div>
-<form class="ui large form" method='post'>
-{% csrf_token %}
-<div class='ui stacked segment'>
-
-  <div class="field">
-  <div class='ui left icon input'>
-    <input type="text" name="username" placeholder="username">
-    <i class='at icon'></i>
-  </div>
-  </div>
-
-
-  <div class="field">
-  <div class='ui left icon input'>
-    <input type="password" name="password" placeholder="password">
-    <i class='lock icon'></i>
-  </div>
-  </div>
-
-  <button class="ui inverted green button" type='submit'>Login</button>
-  </div>
-</form>
-</div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
-
-
+<body>
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 login-section-wrapper">
+          <div class="login-wrapper my-auto">
+            <h1 class="login-title">Log in</h1>
+            <form method='post'>
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+              </div>
+              <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="enter your passsword">
+              </div>
+              <input name="login" id="login" class="btn btn-block login-btn" type="submit" value="Login">
+            </form>
+            <a href="#" class="forgot-password-link">Forgot password?</a>
+            <p class="login-wrapper-footer-text">Don't have an account? <a href="{% url 'registration' %}" class="text-reset">Register here</a></p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>
+{% endblock %}

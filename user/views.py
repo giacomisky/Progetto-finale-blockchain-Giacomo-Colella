@@ -4,14 +4,16 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
 
 from .form import LoginForm, RegisterForm
-from .models import Auct
+from .models import Auct, Feed
 
 from managing.views import addAuction, tip, permanentSaving, getWorkflow
 from datetime import datetime
-from auctionProject.settings import EMAIL_HOST_USER
+
+from django.conf import settings
+
+
 
 
 
@@ -19,32 +21,45 @@ from auctionProject.settings import EMAIL_HOST_USER
 def homePage(request):
     if request.method == 'POST':
         form = request.POST
-        
-        identifAuct = form['identif']
-        tipPrice = form['bet']
-        identifUser = request.user.username
-
-        x = datetime.now()
-        dateBet = datetime.strftime(x, "%Y-%m-%d %H:%M")
-
-        thisPriceAuct = Auct.objects.filter(id=int(identifAuct)).values()[0]
-        if float(tipPrice) < thisPriceAuct['price']:
-            http = HttpResponse()
-            http.write("<dialog open><p>Bid too low!</p></dialog>") #-------------DA SISTEMARE
-            return http
-        else:
-            #save offer on Redis
-            tip(identifAuct, tipPrice, identifUser, dateBet)
-
-            #update the offered price
-            updatePriceAuct = Auct.objects.get(id=int(identifAuct))
-            updatePriceAuct.price = float(tipPrice)
-            updatePriceAuct.buyer = request.user
-            updatePriceAuct.save()
-
+        if 'feed' in form:
+            eml = form['email']
+            content = form['feed']
+            newFeed = Feed.objects.create(user=request.user, content=content)
+            newFeed.save()
+            nwrk = []
             auctions = Auct.objects.filter(active=True).values()
             wrk = getWorkflow()
-            return render(request, 'user/homePage.html', {'auctions': auctions, 'workflow':wrk})
+            for item in wrk:
+                nwrk.append(item.decode('utf-8'))
+            return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': nwrk})
+        else:
+            identifAuct = form['identif']
+            tipPrice = form['bet']
+            identifUser = request.user.username
+
+            x = datetime.now()
+            dateBet = datetime.strftime(x, "%Y-%m-%d %H:%M")
+
+            thisPriceAuct = Auct.objects.filter(id=int(identifAuct)).values()[0]
+            if float(tipPrice) < thisPriceAuct['price']:
+                http = HttpResponse()
+                http.write("<dialog open><p>Bid too low!</p></dialog>") #-------------DA SISTEMARE
+                return http
+            else:
+                #save offer on Redis
+                tip(identifAuct, tipPrice, identifUser, dateBet)
+
+                #update the offered price
+                updatePriceAuct = Auct.objects.get(id=int(identifAuct))
+                updatePriceAuct.price = float(tipPrice)
+                updatePriceAuct.buyer = request.user
+                updatePriceAuct.save()
+                nwrk = []
+                auctions = Auct.objects.filter(active=True).values()
+                wrk = getWorkflow()
+                for item in wrk:
+                    nwrk.append(item.decode('utf-8'))
+                return render(request, 'user/homePage.html', {'auctions': auctions, 'workflow':nwrk})
     else:
         #check the expired auctions
         x = datetime.now()
@@ -60,13 +75,19 @@ def homePage(request):
                     winner = User.objects.get(id=item['buyer_id'])
                     permanentSaving(det, winner)
                     return render(request, 'user/homePage.html', {'auctions': auctions})
-            
+        nwrk = []
         wrk = getWorkflow()
-        return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': wrk})
+        for item in wrk:
+            nwrk.append(item.decode('utf-8'))
+        return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': nwrk})
             
             
+def retUserId(ident):
+    thisUser = User.objects.get(id=ident)
+    return thisUser
 
 
+@login_required(login_url='/login') #the non-logged in user is redirected to the login page
 def adminPanel(request):
     if request.method == 'POST':
         form = request.POST
@@ -81,15 +102,29 @@ def adminPanel(request):
             newAuction = Auct.objects.create(nobject=obj, buyer=request.user , price=price, endData=endDateTime)
             aucId = newAuction.id
             newAuction.save()
+
+            nwrk = []
+            wrk = getWorkflow()
+            for item in wrk:
+                nwrk.append(item.decode('utf-8'))
             
             #Save the initial data of this auction on Redis using managing methods
             addAuction(aucId)
-            
+            feeds = Feed.objects.filter().values()
             auctions = Auct.objects.filter().values()
-            return render(request, 'user/adminPanel.html', {'auctions':auctions})
+            return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
     else:
+        
+        
+        feeds = Feed.objects.filter().values()
+        
         auctions = Auct.objects.filter().values()
-        return render(request, 'user/adminPanel.html', {'auctions':auctions})
+        nwrk = []
+        wrk = getWorkflow()
+        for item in wrk:
+            nwrk.append(item.decode('utf-8'))
+            
+        return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
 
 
 
@@ -110,7 +145,7 @@ def login(request):  #User access
                     return redirect('/')
             except:
                 http = HttpResponse()
-                http.write("<dialog open><p>Data given not valid!</p></dialog>")
+                http.write("<alert open><p>Data given not valid!</p></alert>")
                 return http
     else:
         form = LoginForm()
@@ -139,8 +174,7 @@ def registration(request):  #User registration
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
 
-            #Confirm email sent
-            send_mail('You are registered!', f"Thanks {username} for subscribing to the platform", EMAIL_HOST_USER, [email], fail_silently=False)
+            
             form = LoginForm()
             return login(request)
         else:
@@ -150,3 +184,5 @@ def registration(request):  #User registration
     else:
         form = RegisterForm()
         return render(request, 'user/registration.html', {'form':form})
+
+

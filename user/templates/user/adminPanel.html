@@ -1,94 +1,112 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
 <html>
 <head>
     <title>Administration panel</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
-    <title> Administration Panel </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
-    <div class="ui top fixed menu">
-      <a class="item">
-        <h1 class="ui green header">ADMIN PANEL</h1></a>
-      <div class="right menu">
-        <a class='ui green item' href='#work'>Historical</a>
-        <a class="ui blue item" href="{% url 'log_out' %}">Logout </a>
-      </div>
-    </div>
-  
-    <div class="ui divider"></div>
-    
-    <div class='container'> 
-    <form class="ui inverted large form" method='post'>
-      <div class='ui inverted segment' style='height: 100%;'>
-        {% csrf_token %}
-        <h3 class="ui blue header" style='text-align:center;'>Add a new auction</h3>
-        <div class="six wide field" style='margin: 0 auto;'>
-          <label>Object: </label>
-          <input type="text" name="object" placeholder="object">
-        </div>
-        <div class="six wide field" style='margin: 0 auto;'>
-          <label>Starter price: </label>
-          <input type="text" name="price" placeholder="price">
-        </div>
-        <div class="six wide field" style='margin: 0 auto;'>
-          <label>End date: </label>
-          <input type="date" name="endDate" placeholder="endDate">
-        </div>
-        <div class="six wide field" style='margin: 0 auto;'>
-          <label>Select a time:</label>
-          <input type="time" id="endTime" name="endTime">
-        </div>
-        <button class="ui inverted red button" type='submit' style='width:100px; margin-left:46%; margin-top:2%;'>Public</button>
-        
-      </div>
-    </form>
-    </div>
-    <div class="ui divider"></div>
 
-  <a name='work'></a>
-  <div class="pusher">
-    <div class="ui  segment">
-      <h2 class="ui red header">HISTORICAL TABLE</h2>
-      <table class="ui green single line table">
-        <thead>
-          <tr><th>Object</th>
-          <th>Price</th>
-          <th>State</th>
-          <th>Publishing day</th>
-          <th>Expiration day</th>
-        </tr></thead>
-        <tbody>
-          {% for item in auctions%}
-          <tr>
-            <td data-label="Object">{{item.nobject}}</td>
-            <td data-label="Price">{{item.price}}</td>
-            <td data-label="State">{{item.active}}</td>
-            <td data-label="Publishing day">{{item.publicData}}</td>
-            <td data-label="Expiration day">{{item.endData}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
+  <div class='menu-container'>
+    <div class='menu'>
+      <div class='title'><h2>ADMIN PANEL</h2></div>
+      <div class='right-menu'>
+        <div class='logout'><a href="{% url 'log_out' %}">Logout</a></div>
+      </div>
     </div>
   </div>
-</div>
+  
+ 
+    
+  <div class='page'>
+    
+    <div class='new-auct-form'>
+      <div class='tit-cont'><h2>Add a new auction</h2></div>
+      
+      <form method='post' class='form-auct' >
+        {% csrf_token %}
+        <label for="object">Object</label>
+        <input type="text" class="object" id="object" name='object' placeholder="Object">
 
+        <label for="price">Starter price:</label>
+        <input type="text" class="price" id="price" name='price' placeholder="price">
 
+        <label for="enddate">End date</label>
+        <input type="date" class="endDate" id="endDate" name='endDate' placeholder="End date">
 
+        <label for="endtime">End time</label>
+        <input type="time" class="endTime" id="endTime" name='endTime' placeholder="End time">
 
+        <button onclick="on()">Publish</button>
+      </form>
+    </div>
+  
+    <div class='table-contain'>
+      <div class='tit-hist'><h2>Historical table of auctions</h2></div>
+      <div class='table-cont'>
+        <table class='tablea'>
+          <tr>
+            <th>Object</th>
+            <th>Price</th>
+            <th>State</th>
+            <th>Publishing date</th>
+            <th>Expiring date</th>
+          </tr>
+          {% for item in auctions %}
+            <tr>
+              <td>{{item.nobject}}</td>
+              <td>{{item.price}}€</td>
+              <td>{{item.active}}</td>
+              <td>{{item.publicData}}</td>
+              <td>{{item.endData}}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
 
+  </div>
+ 
+  <div class='second-panel'>
 
+    <div class='cont-feedback'>
+      <div class='tit-feed'><h2>Feedback by the users</h2></div>
+      <div class='scroll-bar'>
+        {% for fee in feed %}
+          <div class="feed-cont">
+            <h4>User: {{fee.user_id}}</h4>
+            <p>Content: {{fee.content}}</p>
+            <p>Published: {{fee.date}}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 
+    <div class='work-contain'>
+      <div class='work-tit'><h2>Workflow of actions</h2></div>
+      <div class='work-cont'>
+          {% for child in workflow %}
+            <p>{{child}}</p>
+            
+          {% endfor %}
+      </div>
+    </div>
+  </div>
 
 </body>
-<script>
-document.querySelector("button").addEventListener('click', function(event) {
-  event.currentTarget.setAttribute("disabled", true);
-}, {
-    once: true
-});
-</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
-
+<script>
+  function on() {
+    alert("You have added a new auction!!");
+  }
+  
+  
+  </script>
 </html>
+{% endblock %}

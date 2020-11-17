@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
-from managing.views import getWordOnSite, getUpdate
+
 
 urlpatterns = [
     path("", views.homePage, name="homePage"),
@@ -9,3 +9,5 @@ urlpatterns = [
     path("registration/", views.registration, name='registration'),
     path("adminPanel", views.adminPanel, name='adminPanel')
 ]
+
+

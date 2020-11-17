@@ -5,8 +5,7 @@ import redis
 import json
 from user.models import Auct
 from .utils import *
-from django.core.mail import send_mail
-from auctionProject.settings import EMAIL_HOST_USER
+
 
 client = redis.StrictRedis(host='127.0.0.1', port=6379, password='',db=0)
 
@@ -37,8 +36,6 @@ def permanentSaving(auction, winner):
 
     #creating JSON file with the winner's info
     winJson = auction.id,[{ 'id': auction.id, 'object':auction.nobject, 'price':auction.price, 'publicDate': auction.publicData, 'endDate': auction.endData},{'username':winn['username'], 'email':winn['email']}]
-    print(winJson)
-    send_mail('You are the winner', f"Congratulations, you have won auction {auction.id}. Object:{auction.nobject}, Price: {auction.price} €", EMAIL_HOST_USER, [winn['email']], fail_silently=False)
     
     #Send the transaction to save the data on blockchain
     #sendTransaction(winJson)
