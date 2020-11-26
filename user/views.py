@@ -4,18 +4,11 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
 from .form import LoginForm, RegisterForm
 from .models import Auct, Feed
-
 from managing.views import addAuction, tip, permanentSaving, getWorkflow
 from datetime import datetime
-
 from django.conf import settings
-
-
-
-
 
 @login_required(login_url='/login') #the non-logged in user is redirected to the login page
 def homePage(request):
@@ -36,15 +29,17 @@ def homePage(request):
             identifAuct = form['identif']
             tipPrice = form['bet']
             identifUser = request.user.username
-
             x = datetime.now()
             dateBet = datetime.strftime(x, "%Y-%m-%d %H:%M")
-
             thisPriceAuct = Auct.objects.filter(id=int(identifAuct)).values()[0]
             if float(tipPrice) < thisPriceAuct['price']:
-                http = HttpResponse()
-                http.write("<dialog open><p>Bid too low!</p></dialog>") #-------------DA SISTEMARE
-                return http
+                messages.warning(request, "Bid too low!!")
+                auctions = Auct.objects.filter(active=True).values()
+                nwrk = []
+                wrk = getWorkflow()
+                for item in wrk:
+                    nwrk.append(item.decode('utf-8'))
+                return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': nwrk})
             else:
                 #save offer on Redis
                 tip(identifAuct, tipPrice, identifUser, dateBet)
@@ -57,6 +52,7 @@ def homePage(request):
                 nwrk = []
                 auctions = Auct.objects.filter(active=True).values()
                 wrk = getWorkflow()
+                messages.success(request, "Bet placed successfully")
                 for item in wrk:
                     nwrk.append(item.decode('utf-8'))
                 return render(request, 'user/homePage.html', {'auctions': auctions, 'workflow':nwrk})
@@ -81,53 +77,51 @@ def homePage(request):
             nwrk.append(item.decode('utf-8'))
         return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': nwrk})
             
-            
 def retUserId(ident):
     thisUser = User.objects.get(id=ident)
     return thisUser
-
 
 @login_required(login_url='/login') #the non-logged in user is redirected to the login page
 def adminPanel(request):
     if request.method == 'POST':
         form = request.POST
         if form:
-            obj = form['object']
-            price = form['price']
-            endDate = form['endDate']
-            endTime = form['endTime']
-            
-            endDateTime = endDate+' '+endTime
-            
-            newAuction = Auct.objects.create(nobject=obj, buyer=request.user , price=price, endData=endDateTime)
-            aucId = newAuction.id
-            newAuction.save()
-
-            nwrk = []
-            wrk = getWorkflow()
-            for item in wrk:
-                nwrk.append(item.decode('utf-8'))
-            
-            #Save the initial data of this auction on Redis using managing methods
-            addAuction(aucId)
-            feeds = Feed.objects.filter().values()
-            auctions = Auct.objects.filter().values()
-            return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
+            try:
+                obj = form['object']
+                price = form['price']
+                endDate = form['endDate']
+                endTime = form['endTime']
+                endDateTime = endDate+' '+endTime
+                newAuction = Auct.objects.create(nobject=obj, buyer=request.user , price=price, endData=endDateTime)
+                aucId = newAuction.id
+                newAuction.save()
+                nwrk = []
+                wrk = getWorkflow()
+                for item in wrk:
+                    nwrk.append(item.decode('utf-8'))
+                messages.success(request, "Auction successfully added!")
+                #Save the initial data of this auction on Redis using managing methods
+                addAuction(aucId)
+                feeds = Feed.objects.filter().values()
+                auctions = Auct.objects.filter().values()
+                return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
+            except:
+                messages.warning(request, "New auction creation failed. Check all fields")
+                feeds = Feed.objects.filter().values()
+                auctions = Auct.objects.filter().values()
+                nwrk = []
+                wrk = getWorkflow()
+                for item in wrk:
+                    nwrk.append(item.decode('utf-8'))
+                return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
     else:
-        
-        
         feeds = Feed.objects.filter().values()
-        
         auctions = Auct.objects.filter().values()
         nwrk = []
         wrk = getWorkflow()
         for item in wrk:
             nwrk.append(item.decode('utf-8'))
-            
         return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
-
-
-
 
 def login(request):  #User access
     if request.method == 'POST':
@@ -138,31 +132,24 @@ def login(request):  #User access
             try:
                 user = authenticate(username=username, password=password)
                 if user.is_superuser:
+                    messages.success(request, "Login successful. Welcome back administrator!")
                     log(request, user)
                     return redirect('/adminPanel')
                 else:
+                    messages.success(request, f"Login successful. Welcome back {username}")
                     log(request, user)
                     return redirect('/')
             except:
-                http = HttpResponse()
-                http.write("<alert open><p>Data given not valid!</p></alert>")
-                return http
+                messages.warning(request, "Login failed!")
+                form = LoginForm()
+                return render(request, 'user/login.html', {'form':form})
     else:
         form = LoginForm()
         return render(request, 'user/login.html', {'form':form})
 
-
-
-
-
 def log_out(request):
     logout(request)
     return redirect("/login")
-
-
-
-
-
 
 def registration(request):  #User registration
     if request.method == 'POST':
@@ -173,14 +160,13 @@ def registration(request):  #User registration
             password = form['password']
             user = User.objects.create_user(username=username, email=email, password=password)
             user.save()
-
-            
+            messages.success(request, "Registration successful")
             form = LoginForm()
             return login(request)
         else:
-            http = HttpResponse()
-            http.write("<h2>You are just registered on this platform!</h2>") 
-            return http
+            messages.warning(request, "Registration failed")
+            form = RegisterForm()
+            return render(request, 'user/registration.html', {'form':form})
     else:
         form = RegisterForm()
         return render(request, 'user/registration.html', {'form':form})

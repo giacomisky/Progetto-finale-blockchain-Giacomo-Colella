@@ -22,3 +22,10 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Storage(models.Model):
+    auctId = models.ForeignKey(Auct, on_delete=models.CASCADE)
+    auctJson = models.TextField()
+
+    def __str__(self):
+        return self.auctJson
