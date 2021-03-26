@@ -4,11 +4,20 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .form import LoginForm, RegisterForm
 from .models import Auct, Feed
 from managing.views import addAuction, tip, permanentSaving, getWorkflow
 from datetime import datetime
 from django.conf import settings
+
+def checkAuct(request):
+    print('ciao')
+    info = Request.GET
+    print(info.data)
+    retData = {"info": "ciao"}
+    return JsonResponse(retData)
+
 
 @login_required(login_url='/login') #the non-logged in user is redirected to the login page
 def homePage(request):
@@ -77,9 +86,11 @@ def homePage(request):
             nwrk.append(item.decode('utf-8'))
         return render(request, 'user/homePage.html', {'auctions':auctions, 'workflow': nwrk})
             
+
 def retUserId(ident):
     thisUser = User.objects.get(id=ident)
     return thisUser
+
 
 @login_required(login_url='/login') #the non-logged in user is redirected to the login page
 def adminPanel(request):
@@ -123,6 +134,7 @@ def adminPanel(request):
             nwrk.append(item.decode('utf-8'))
         return render(request, 'user/adminPanel.html', {'auctions':auctions, 'feed':feeds, 'workflow':nwrk})
 
+
 def login(request):  #User access
     if request.method == 'POST':
         form = request.POST
@@ -147,9 +159,11 @@ def login(request):  #User access
         form = LoginForm()
         return render(request, 'user/login.html', {'form':form})
 
+
 def log_out(request):
     logout(request)
     return redirect("/login")
+
 
 def registration(request):  #User registration
     if request.method == 'POST':

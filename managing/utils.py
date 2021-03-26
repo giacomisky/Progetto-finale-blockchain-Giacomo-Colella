@@ -1,4 +1,4 @@
-#from web3 import Web3
+from web3 import Web3
 
 def sendTransaction(message):
     w3 = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/d265c97f7731499084e370233e9f58c7'))

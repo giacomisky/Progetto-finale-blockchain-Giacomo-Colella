@@ -8,9 +8,10 @@
         <title>Home Page</title>
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"> 
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
-    <body>
+    <body onload="setInterval(checkAuct, 1000)">
         {% if messages %}
             {% for message in messages %}
                 {% if message.tags == 'success' %}
@@ -95,6 +96,20 @@
         </div>
     </body>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        function checkAuct(){
+            $.ajax({
+                type: 'GET',
+                url: 'checkAuct',
+                data: {"info": {auction} },
+                dataType: "json",
+                success: function (data){
+                    console.log(data);
+                    
+                },
+            });
+        }
+    </script>
     <script>
         function openNav() {
             elem = document.getElementById("ocSide").style.width;
