@@ -1,0 +1,147 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Home Page</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"> 
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body onload="setInterval(checkAuct, 1000)">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div class='menu-container'>
+            <div class='menu'>
+                <div class='title'><h2>AUCTIONS ON CHAIN</h2></div>
+                <div class='right-menu'>
+                    <div class='wallet'><a href="{% url 'shoWallet' %}">Wallet</a></div>
+                    <div class='winner'><a href="{% url 'shoWinner' %}">Winner</a></div>
+                    <div class='contact'><a href='#feedback'>Feedback</a></div>
+                    <div class='logout'><a href="{% url 'log_out' %}">Logout</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class='second-bar'>
+            <div class='tit-cont'><h3>Active auctions</h3></div>
+            <div class='check-side' id='checkSide'>
+                <input type="checkbox" id='checkbox' name='checkbox' value=false onclick="check()">
+                <label for='check'>Fix workflow</label>
+            </div>
+        </div>
+        <hr>
+        <div class='page'>
+            <div class='grid-container'>
+                {% for block in auctions %}
+                    <div class='grid-item'>
+                        <form method='post'>
+                            {% csrf_token %}
+                            <input type="text" class='identif' name='identif' value={{block.id}} readonly></input>
+                            <h3>Object: <b>{{block.nobject}}</b> | Price: <b>{{block.price}}€</b></h3>
+                            <div class="date-pub">Published: {{block.publicData}}</div> <br>
+                            <div class="date-exp">Expiry: {{block.endData}}</div>
+                            <br>
+                            <br>
+                            <div class="bet-cont">
+                                <div class='input-bet'>
+                                    <input type="text" placeholder="Bet", name='bet', class='bet' id='bet'>
+                                </div>
+                                <div class='button-bet'>
+                                    <button class="bet-btn">Bet</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class='oc-side' id='ocSide'>
+                <div class='btn-to-oc' id="btnToc">
+                    <span class='manage-work' onclick="openNav()">&#9776;</span>
+                </div>
+                <div id='mySideMenu' class='side-menu'>
+                    <div class='tit-work'><h3>WORKFLOW</h3></div>
+                    {% for item in workflow %}
+                        <p>{{item}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <a id='feedback'></a>
+        <div class='footer'>
+            <h4>Send us your feedback!</h4>
+            <div class='feed-form'>
+                <form method="post" class='form-c'>
+                    {% csrf_token %}
+                    <label for="email">Email</label>
+                    <input type="email" name='email' placeholder="Email">
+                    <label for='message'>Message</label>
+                    <textarea type=text name="feed" placeholder="Type here your feed" ></textarea>  
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+            <p>This product is created by Giacomo Colella</p>
+        </div>
+    </body>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        function checkAuct(){
+            $.ajax({
+                type: 'GET',
+                url: 'checkAuct',
+                data: {},
+                dataType: "json",
+                success: function (data){
+                    console.log(data);
+                    
+                },
+            });
+        }
+    </script>
+    <script>
+        function openNav() {
+            elem = document.getElementById("ocSide").style.width;
+            if(elem === "80%"){
+                document.getElementById("mySideMenu").style.visibility = 'hidden';
+                document.getElementById("ocSide").style.width = "40px";
+            }else{
+                document.getElementById("ocSide").style.width = "80%";
+                document.getElementById("mySideMenu").style.visibility = 'visible'; 
+            }
+        }
+    </script>
+    <script>
+        function check() {
+        checked = document.getElementById("checkbox").checked;
+        if(checked == true){
+            document.getElementById("mySideMenu").style.position = 'absolute';
+        }else{
+            document.getElementById("mySideMenu").style.position = 'fixed';
+        }
+    }
+    </script>
+    <script>
+        dialog("Welcome back!!");
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
+{% endblock %}

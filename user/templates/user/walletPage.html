@@ -1,0 +1,78 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Wallet Page</title>
+        <link rel="stylesheet" href="{% static 'css/wallet.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"> 
+        <script type="text/javascript" src="jquery.qrcode.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    </head>
+    <body onload="loadQr()">
+       
+        <div class='menu-container'>
+            <div class='menu'>
+                <div class='title'><h2>AUCTIONS ON CHAIN</h2></div>
+                <div class='right-menu'>
+                    <div class='wallet'><a href="{% url 'shoWallet' %}">Wallet</a></div>
+                    <div class='winner'><a href="{% url 'shoWinner' %}">Winner</a></div>
+                    <div class='contact'><a href='#feedback'>Feedback</a></div>
+                    <div class='logout'><a href="{% url 'log_out' %}">Logout</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class='second-bar'>
+            <div class='tit-cont'><h3>Wallet details</h3></div>
+        </div>
+        <hr>
+        <div class='page'>
+            
+                <div class="column">
+                  <div class="ui raised segment">
+                    <a class="ui red ribbon label">Address</a>{{ infoWallet.address }}
+                    </br>
+                    </br>
+                    <img id='barcode' class="bar-code"
+                        src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&amp;size=100x100" 
+                        alt="" 
+                        width="100" 
+                        height="100"/>
+                    </br>
+                    </br>
+
+                    <a class="ui blue ribbon label">ETH Balance</a>{{ infoWallet.ethBalance }} ETH
+                    </br>
+                    </br>
+                    </br>
+
+                    <a class="ui green ribbon label">EURO Balance</a>{{ infoWallet.euroBalance }} €
+                    <p></p>
+                    
+                  </div>
+               
+            </div>
+            
+        </div>
+        
+    </body>
+    <script>
+        function loadQr(){
+            var nric = "{{infoWallet.address}}";
+            console.log(nric);
+            var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=100x100';
+            $('#barcode').attr('src', url);
+        }
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
+{% endblock %}

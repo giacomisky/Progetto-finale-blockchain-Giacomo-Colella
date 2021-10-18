@@ -1,0 +1,115 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Administration panel</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+      {% else %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <div class='menu-container'>
+    <div class='menu'>
+      <div class='title'><h2>ADMIN PANEL</h2></div>
+      <div class='right-menu'>
+        <div class='logout'><a href="{% url 'log_out' %}">Logout</a></div>
+      </div>
+    </div>
+  </div>
+  <div class='page'>
+    <div class='new-auct-form'>
+      <div class='tit-cont'><h2>Add a new auction</h2></div>
+      <form method='post' class='form-auct' >
+        {% csrf_token %}
+        <label for="object">Object</label>
+        <input type="text" class="object" id="object" name='object' placeholder="Object" required>
+
+        <label for="price">Starter price:</label>
+        <input type="text" class="price" id="price" name='price' placeholder="price" required>
+
+        <label for="enddate">End date</label>
+        <input type="date" class="endDate" id="endDate" name='endDate' placeholder="End date" required>
+
+        <label for="endtime">End time</label>
+        <input type="time" class="endTime" id="endTime" name='endTime' placeholder="End time" required>
+
+        <button>Publish</button>
+      </form>
+    </div>
+  
+    <div class='table-contain'>
+      <div class='tit-hist'><h2>Historical table of auctions</h2></div>
+      <div class='table-cont'>
+        <table class='tablea'>
+          <tr>
+            <th>Object</th>
+            <th>Price</th>
+            <th>State</th>
+            <th>Publishing date</th>
+            <th>Expiring date</th>
+          </tr>
+          {% for item in auctions %}
+            <tr>
+              <td>{{item.nobject}}</td>
+              <td>{{item.price}}€</td>
+              <td>{{item.active}}</td>
+              <td>{{item.publicData}}</td>
+              <td>{{item.endData}}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+  </div>
+ 
+  <div class='second-panel'>
+    <div class='cont-feedback'>
+      <div class='tit-feed'><h2>Feedback by the users</h2></div>
+      <div class='scroll-bar'>
+        {% for fee in feed %}
+          <div class="feed-cont">
+            <h4>User: {{fee.user_id}}</h4>
+            <p>Content: {{fee.content}}</p>
+            <p>Published: {{fee.date}}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class='work-contain'>
+      <div class='work-tit'><h2>Workflow of actions</h2></div>
+      <div class='work-cont'>
+          {% for child in workflow %}
+            <p>{{child}}</p>
+            
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
+{% endblock %}

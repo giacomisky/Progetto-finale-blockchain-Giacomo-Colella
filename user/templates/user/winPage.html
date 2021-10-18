@@ -1,0 +1,76 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Winner Page</title>
+        <link rel="stylesheet" href="{% static 'css/win.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <script type="text/javascript" src="jquery.qrcode.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    </head>
+    <body>
+       
+        <div class='menu-container'>
+            <div class='menu'>
+                <div class='title'><h2>AUCTIONS ON CHAIN</h2></div>
+                <div class='right-menu'>
+                    <div class='wallet'><a href="{% url 'shoWallet' %}">Wallet</a></div>
+                    <div class='winner'><a href="{% url 'shoWinner' %}">Winner</a></div>
+                    <div class='contact'><a href='#feedback'>Feedback</a></div>
+                    <div class='logout'><a href="{% url 'log_out' %}">Logout</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class='second-bar'>
+            <div class='tit-cont'><h3>Winnings details</h3></div>
+        </div>
+        <hr>
+        <div class='page'>
+            <table class='ui single line table'>
+                <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Object</th>
+                      <th>Price</th>
+                      <th>Buyer</th>
+                      <th>Publication date</th>
+                      <th>Expiring date</th>
+                      <th>Transaction Id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in infoWin %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.nobject}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.buyer_id}}</td>
+                            <td>{{item.publicData}}</td>
+                            <td>{{item.endData}}</td>
+                            <td><a href="https://ropsten.etherscan.io/tx/{{item.txId}}">{{item.txId}}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            
+        </div>
+        
+    </body>
+    <script>
+        $(function(){
+           $('.ui.accordion').accordion();
+        });
+    </script>
+</html>
+{% endblock %}

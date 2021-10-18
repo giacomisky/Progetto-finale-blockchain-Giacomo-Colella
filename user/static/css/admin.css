@@ -1,0 +1,690 @@
+body{
+    background-color: black;
+}
+
+/*---------MOBILE---------*/
+@media screen and (max-width: 420px){
+
+    /*-------------menu------------*/
+    .menu-container{
+        background-color: #fdbb28;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        
+    }
+
+    .right-menu{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 200px;
+    }
+
+    .logout a{
+        color: black;
+    }
+
+
+    /*----------page content---------*/
+    .page{
+        
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        height: 160%;
+        padding: 10px 10px;
+    }
+
+    .tit-cont{
+        text-align: center;
+    }
+
+    .tit-cont h2{
+        color: black;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .new-auct-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin-top: 10%;
+        
+    }
+
+    .form-auct{
+        background-color: #25587E;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 40px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        height: 100%;
+        width: 100%;
+    }
+
+    .form-auct input{
+        height: 35px;
+        margin-bottom: 20px;
+        border-color: transparent;
+    }
+
+    .form-auct label{
+        color: white;
+    }
+
+    .form-auct button{
+        height: 35px;
+        background-color: #fdbb28;
+        border-color: transparent;
+    }
+
+    .form-auct button:hover{
+        background-color: white;
+        color: #fdbb28;
+        border: 1px solid #fdbb28;
+    }
+
+    .cont-feedback{
+        width: 100%;
+        height: 50%;
+        
+    }
+
+    .tit-feed{
+        text-align: center;
+    }
+
+    .tit-feed h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: black;
+    }
+
+    .table-contain{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin-top: 25%;
+        overflow: scroll;
+        color: black;
+    }
+
+    .table-cont{
+        height: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tit-hist{
+        text-align: center;
+        margin-top: 20%;
+    }
+
+    .tit-hist h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-top: 20px;
+    }
+
+    .tablea{
+        border: 1px solid #fdbb28;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        width: 100%;
+    }
+
+    .tablea th{
+        padding: 15px;
+        text-align: center;
+        background-color: #25587E;
+        color: white;
+    }
+
+    .tablea td{
+        text-align: center;
+        
+    }
+
+    .scroll-bar{
+        color:  black;
+        overflow: auto;
+        white-space: nowrap;
+        width: 100%;
+        height: 80%;
+        padding: 10px;
+        margin-top: 15px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+    }
+
+    .scroll-bar div{
+       border: 3px solid #fdbb28;
+       background-color: white;
+       color: black;
+       display: inline-block;
+       margin-right: 20px;
+       box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+       height: 100%;
+    }
+
+    .feed-cont{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+    }
+
+    .feed-cont h4{
+        background-color: #25587E;
+        color: white;
+    }
+
+    .second-panel{
+        margin-top: 20px;
+        height: 100%;
+       display: flex;
+       flex-direction: column;
+    }
+
+    .work-contain{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        color: black;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .work-tit{
+        text-align: center;
+    }
+
+    .work-tit h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        
+    }
+
+    .work-cont{
+        background-color: #fdbb28;
+        border: 2px solid #fdbb28;
+        
+        padding: 20px;
+        overflow: scroll; 
+        height: 70%;  
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*---------TABLET----------*/
+@media screen and (min-width: 421px) and (max-width: 950px){
+    .menu-container{
+        background-color: #fdbb28;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        
+    }
+
+    .right-menu{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 200px;
+    }
+
+    .logout a{
+        color: black;
+    }
+
+    .page{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+        padding: 50px;
+    }
+
+    .tit-cont{
+        text-align: center;
+    }
+
+    .tit-cont h2{
+        color: black;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .new-auct-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 90%;
+        height: 100%;
+        
+        
+    }
+
+    .form-auct{
+        background-color: #25587E;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 40px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        height: 100%;
+    }
+
+    .form-auct input{
+        height: 35px;
+        margin-bottom: 20px;
+        border-color: transparent;
+    }
+
+    .form-auct label{
+        color: white;
+    }
+
+    .form-auct button{
+        height: 35px;
+        background-color: #fdbb28;
+        border-color: transparent;
+    }
+
+    .form-auct button:hover{
+        background-color: white;
+        color: #fdbb28;
+        border: 1px solid #fdbb28;
+    }
+
+    .cont-feedback{
+        width: 90%;
+        margin-left: 20px;
+    }
+
+    .tit-feed{
+        text-align: center;
+    }
+
+    .tit-feed h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: black;
+    }
+
+    .table-contain{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 90%;
+        height: 100%;
+        margin-top: 10%;
+        overflow: scroll;
+        color: black;
+    }
+
+    .table-cont{
+        height: 80%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tit-hist{
+        text-align: center;
+        
+    }
+
+    .tit-hist h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .tablea{
+        border: 1px solid #fdbb28;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        width: 100%;
+    }
+
+    .tablea th{
+        padding: 15px;
+        text-align: center;
+        background-color: #25587E;
+        color: white;
+    }
+
+    .tablea td{
+        text-align: center;
+        
+    }
+
+    .scroll-bar{
+        color:  black;
+        
+        overflow: auto;
+        white-space: nowrap;
+        width: 100%;
+        height: 80%;
+        padding: 15px;
+        margin-top: 15px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+    }
+
+    .scroll-bar div{
+       border: 3px solid #fdbb28;
+       background-color: white;
+       color: black;
+       display: inline-block;
+       margin-right: 20px;
+       box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+       height: 100%;
+    }
+
+    .feed-cont{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+    }
+
+    .feed-cont h4{
+        background-color: #25587E;
+        color: white;
+    }
+
+    .second-panel{
+        justify-content: center;
+        height: fit-content;
+       display: flex;
+       flex-direction: column;
+    }
+
+    .work-contain{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 90%;
+        color: black;
+        
+    }
+
+    .work-tit{
+        text-align: center;
+    }
+
+    .work-tit h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .work-cont{
+        background-color: #fdbb28;
+        border: 2px solid #fdbb28;
+        margin-left: 10%;
+        padding: 20px;
+        overflow: scroll; 
+        height: 50%;  
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*----------DESKTOP-------------*/
+@media screen and (min-width: 961px){
+
+    .closebtn:hover{
+        color: black;
+    }
+    
+
+    .menu-container{
+        background-color: #fdbb28;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu{
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        
+    }
+
+    .right-menu{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 200px;
+    }
+
+    .logout a{
+        color: black;
+    }
+
+    .page{
+        
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        height: 60%;
+        padding: 50px;
+    }
+
+    .tit-cont{
+        text-align: center;
+    }
+
+    .tit-cont h2{
+        color: black;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .new-auct-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 30%;
+        height: 100%;
+        
+        
+    }
+
+    .form-auct{
+        background-color: #25587E;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 40px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        height: 100%;
+    }
+
+    .form-auct input{
+        height: 35px;
+        margin-bottom: 20px;
+        border-color: transparent;
+    }
+
+    .form-auct label{
+        color: white;
+    }
+
+    .form-auct button{
+        height: 35px;
+        background-color: #fdbb28;
+        border-color: transparent;
+    }
+
+    .form-auct button:hover{
+        background-color: white;
+        color: #fdbb28;
+        border: 1px solid #fdbb28;
+    }
+
+    .cont-feedback{
+        width: 50%;
+        margin-left: 20px;
+    }
+
+    .tit-feed{
+        text-align: center;
+    }
+
+    .tit-feed h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: black;
+    }
+
+    .table-contain{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 50%;
+        height: 100%;
+        margin-top: 0%;
+        margin-left: 25%;
+        overflow: scroll;
+        color: black;
+    }
+
+    .table-cont{
+        height: 80%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tit-hist{
+        text-align: center;
+        
+    }
+
+    .tit-hist h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .tablea{
+        border: 1px solid #fdbb28;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+        width: 100%;
+    }
+
+    .tablea th{
+        padding: 15px;
+        text-align: center;
+        background-color: #25587E;
+        color: white;
+    }
+
+    .tablea td{
+        text-align: center;
+        
+    }
+
+    .scroll-bar{
+        color:  black;
+        
+        overflow: auto;
+        white-space: nowrap;
+        width: 100%;
+        height: 80%;
+        padding: 15px;
+        margin-top: 15px;
+        box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+    }
+
+    .scroll-bar div{
+       border: 3px solid #fdbb28;
+       background-color: white;
+       color: black;
+       display: inline-block;
+       margin-right: 20px;
+       box-shadow: 0px 4px 4px 4px rgba(0,0,0,0.4);
+       height: 100%;
+    }
+
+    .feed-cont{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+    }
+
+    .feed-cont h4{
+        background-color: #25587E;
+        color: white;
+    }
+    
+    .feed-cont p{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .second-panel{
+        
+        height: 35%;
+       display: flex;
+       flex-direction: row;
+    }
+
+    .work-contain{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+        height: 80%;
+        color: black;
+    }
+
+    .work-tit{
+        text-align: center;
+    }
+
+    .work-tit h2{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        
+    }
+
+    .work-cont{
+        background-color: #fdbb28;
+        border: 2px solid #fdbb28;
+        margin-left: 20%;
+        padding: 20px;
+        overflow: scroll; 
+        height: 100%;  
+    }
+
+
+
+}
+
