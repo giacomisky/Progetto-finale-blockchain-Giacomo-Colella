@@ -14,6 +14,7 @@ This project consist of an auction platform platform where the results are perma
 
 ### Option2:
 * Visit this website: https://auctiononchain.herokuapp.com/
+* (This option gives a problem with the blockchain transaction, if you are unable to enter from the login form, click the login button again with the credentials entered)
 #### There are two users already registered:
 Normal user:
 *  username = user
